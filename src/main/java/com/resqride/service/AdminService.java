@@ -3,13 +3,13 @@ package com.resqride.service;
 import com.resqride.dto.AdminDashboardResponse;
 import com.resqride.model.MechanicProfile;
 import com.resqride.model.RequestStatus;
-import com.resqride.model.ServiceRequest;
 import com.resqride.model.User;
 import com.resqride.repository.MechanicProfileRepository;
 import com.resqride.repository.ServiceRequestRepository;
 import com.resqride.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.resqride.entity.ServiceRequest;
 
 import java.util.List;
 

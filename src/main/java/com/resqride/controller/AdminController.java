@@ -2,8 +2,8 @@ package com.resqride.controller;
 
 import com.resqride.dto.AdminDashboardResponse;
 import com.resqride.dto.ApiResponse;
+import com.resqride.entity.ServiceRequest;
 import com.resqride.model.MechanicProfile;
-import com.resqride.model.ServiceRequest;
 import com.resqride.model.User;
 import com.resqride.service.AdminService;
 import lombok.RequiredArgsConstructor;

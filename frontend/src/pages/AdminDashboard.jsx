@@ -11,6 +11,7 @@ function AdminDashboard() {
   const [users, setUsers] = useState([]);
   const [mechanics, setMechanics] = useState([]);
   const [requests, setRequests] = useState([]);
+  const [revenueReport, setRevenueReport] = useState(null);
   const [message, setMessage] = useState("");
 
   const loadDashboard = async () => {
@@ -57,6 +58,17 @@ function AdminDashboard() {
     }
   };
 
+  const loadRevenueReport = async () => {
+    try {
+      const res = await API.get("/admin/revenue/report");
+      setRevenueReport(res.data);
+      setMessage("Revenue report loaded successfully");
+    } catch (error) {
+      console.log(error);
+      setMessage("Failed to load revenue report");
+    }
+  };
+
   const verifyMechanic = async (mechanicProfileId) => {
     try {
       await API.put(`/admin/mechanics/${mechanicProfileId}/verify`);
@@ -82,7 +94,7 @@ function AdminDashboard() {
 
         {message && <p className="mt-4 text-yellow-300">{message}</p>}
 
-        <div className="grid md:grid-cols-4 gap-5 mt-8">
+        <div className="grid md:grid-cols-5 gap-5 mt-8">
           <button
             onClick={loadDashboard}
             className="bg-red-500 hover:bg-red-600 p-4 rounded-2xl font-semibold"
@@ -110,18 +122,87 @@ function AdminDashboard() {
           >
             Load Requests
           </button>
+
+          <button
+            onClick={loadRevenueReport}
+            className="bg-yellow-500 hover:bg-yellow-600 p-4 rounded-2xl font-semibold text-slate-950"
+          >
+            Load Revenue
+          </button>
         </div>
 
         {stats && (
           <div className="grid md:grid-cols-4 gap-5 mt-8">
             <StatCard title="Total Users" value={stats.totalUsers} />
             <StatCard title="Total Mechanics" value={stats.totalMechanics} />
-            <StatCard title="Verified Mechanics" value={stats.verifiedMechanics} />
-            <StatCard title="Pending Mechanics" value={stats.pendingMechanics} />
+            <StatCard
+              title="Verified Mechanics"
+              value={stats.verifiedMechanics}
+            />
+            <StatCard
+              title="Pending Mechanics"
+              value={stats.pendingMechanics}
+            />
             <StatCard title="Total Requests" value={stats.totalRequests} />
             <StatCard title="Pending Requests" value={stats.pendingRequests} />
-            <StatCard title="Completed Requests" value={stats.completedRequests} />
-            <StatCard title="Estimated Revenue" value={`₹${stats.estimatedRevenue}`} />
+            <StatCard
+              title="Completed Requests"
+              value={stats.completedRequests}
+            />
+            <StatCard
+              title="Estimated Revenue"
+              value={`₹${stats.estimatedRevenue}`}
+            />
+          </div>
+        )}
+
+        {revenueReport && (
+          <div className="bg-white/10 border border-white/10 rounded-3xl p-6 shadow-xl shadow-black/20 mt-8">
+            <h2 className="text-2xl font-bold mb-5 text-yellow-300">
+              Revenue Dashboard
+            </h2>
+
+            <div className="grid md:grid-cols-4 gap-5">
+              <StatCard
+                title="Service Revenue"
+                value={`₹${revenueReport.totalServiceRevenue}`}
+              />
+
+              <StatCard
+                title="Platform Commission"
+                value={`₹${revenueReport.totalPlatformCommission}`}
+              />
+
+              <StatCard
+                title="Mechanic Earnings"
+                value={`₹${revenueReport.totalMechanicEarnings}`}
+              />
+
+              <StatCard
+                title="Cancellation Fees"
+                value={`₹${revenueReport.totalCancellationFees}`}
+              />
+
+              <StatCard
+                title="Subscription Revenue"
+                value={`₹${revenueReport.totalSubscriptionRevenue}`}
+              />
+
+              <StatCard
+                title="Emergency Plan Revenue"
+                value={`₹${revenueReport.totalEmergencyPlanRevenue}`}
+              />
+
+              <StatCard
+                title="Featured Listing Revenue"
+                value={`₹${revenueReport.totalFeaturedListingRevenue}`}
+              />
+
+              <StatCard
+                title="Total Business Revenue"
+                value={`₹${revenueReport.totalBusinessRevenue}`}
+              />
+            </div>
           </div>
         )}
 
